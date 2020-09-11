@@ -1,10 +1,10 @@
 import numpy as np
-from tinyml.models.model import Model
-from tinyml.util.dataset import Dataset
-from tinyml.models.neural_networks.layer import Layer
-from tinyml.models.neural_networks.dense_layer import DenseLayer
-from tinyml.models.neural_networks.output_layer import OutputLayer
-import tinyml.models.neural_networks.backpropagation
+from anotherml.models.model import Model
+from anotherml.util.dataset import Dataset
+from anotherml.models.neural_networks.layer import Layer
+from anotherml.models.neural_networks.dense_layer import DenseLayer
+from anotherml.models.neural_networks.output_layer import OutputLayer
+import anotherml.models.neural_networks.backpropagation
 
 
 class NeuralNetwork(Model):
@@ -53,7 +53,9 @@ class NeuralNetwork(Model):
             for layer in self.layers:
                 layer.weights -= (self.learning_rate / dataset.size()) * layer.weight_error
                 layer.biases -= (self.learning_rate / dataset.size()) * layer.bias_error
+                
                 layer.reset_error()
+
             # print("new weights")
             # print(self.layers[1].weights)
             # print("new biases")

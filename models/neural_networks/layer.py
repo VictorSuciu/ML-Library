@@ -1,8 +1,7 @@
 import numpy as np
-#from .neuron import Neuron
-from tinyml.models.neural_networks.activation_functions import *
-from tinyml.models.neural_networks.cost_functions import *
-from tinyml.models.neural_networks.backpropagation import *
+from anotherml.models.neural_networks.activation_functions import *
+from anotherml.models.neural_networks.cost_functions import *
+from anotherml.models.neural_networks.backpropagation import *
 
 class Layer():
 

@@ -3,12 +3,16 @@ import matplotlib.pyplot as plt
 
 class Dataset():
 
-    def __init__(self, data, labels):
+    def __init__(self, data, labels, colors=None):
         if(len(data) != len(labels)):
             raise Exception("Error: There are " + str(len(data)) + " data points and " + str(len(labels)) + \
             " labels. The number of data points must equal the number of labels.")
         self.data = self.set_data(np.array(data))
         self.labels = self.set_labels(np.array(labels))
+        if colors == 0:
+            self.colors = labels
+        else:
+            self.colors = colors
 
     def set_data(self, data):
         formatted_data = np.zeros((data.shape[0], data.shape[1], 1))
@@ -33,5 +37,5 @@ class Dataset():
 
     
     def plot(self, xfeat=0, yfeat=1):
-        plt.scatter(self.data[:,xfeat].T[0], self.data[:,yfeat].T[0], s=20, c=self.labels.T)
+        plt.scatter(self.data[:,xfeat].T[0], self.data[:,yfeat].T[0], s=20, c=self.colors)
         plt.show()
