@@ -1,5 +1,5 @@
 import numpy as np
-
+import copy
 
 def sigmoid(x):
     # print('sigmoid')
@@ -11,15 +11,15 @@ def sigmoid_derivative(x):
 
 
 def relu(x):
-    # print('relu')
-    x[x<0] = 0
-    return x
+    y = copy.deepcopy(x)
+    y[y<0] = 0
+    return y
 
 def relu_derivative(x):
-    # print('relu-prime')
-    x[x<0] = 0
-    x[x>=0] = 1
-    return x
+    y = copy.deepcopy(x)
+    y[y>=0] = 1
+    y[y<0] = 0
+    return y
 
 
 def tanh(x):

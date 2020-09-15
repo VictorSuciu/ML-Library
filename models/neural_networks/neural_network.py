@@ -43,12 +43,16 @@ class NeuralNetwork(Model):
         for e in range(epochs):         
             for vector, label in zip(dataset.data, dataset.labels):
                 # give input to first layer and feed forward throughout the network
+                # print('\tFEED FORWARD\n')
                 self.predict(vector)
 
                 # backpropagate error through network. This performs gradient descent
+                # print('\tBACKPROP\n')
                 for layer in reversed(self.layers):
                     layer.compute_layer_error(label)      
-            
+                
+                # exit(0)
+
             # update weights and biases from results of gradient descent
             for layer in self.layers:
                 layer.weights -= (self.learning_rate / dataset.size()) * layer.weight_error
@@ -62,10 +66,12 @@ class NeuralNetwork(Model):
             # print(self.layers[1].biases)
         
         print("\n----------\n")
-
+        print(self.layers[0].weights)
+        print(self.layers[1].weights)
+        print(self.layers[2].weights)
         
     def predict(self, datapoint):
-        self.layers[0].set_input(datapoint)
+        self.layers[0].set_input(datapoint / np.linalg.norm(datapoint))
         for layer in self.layers:
             layer.feed_forward()
         return self.layers[-1].output

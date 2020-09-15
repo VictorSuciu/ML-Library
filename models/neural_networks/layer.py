@@ -77,13 +77,14 @@ class Layer():
         else:
             self.curr_error = layer_error(self.next_layer.weights, self.next_layer.curr_error, self.weighted_inputs, self.activation_der)
 
-        # print("weight_error Multiplying:\n", self.curr_error, "\nby\n", self.inputs.T)
-        # print("Result:\n", (self.curr_error @ self.inputs.T))
-        # print("weight_error:\n", self.weight_error)
         self.weight_error += (self.curr_error @ self.inputs.T)
         self.bias_error += self.curr_error
-        # print("weight_error:\n", self.weight_error, "\nbias_error\n", self.bias_error)
         
+        # print("new weighted_inputs\n", self.weighted_inputs)
+        # print("new output\n", self.output)
+        # if not self.is_last:
+        #     print("new next_layer.weights\n", self.next_layer.weights)
+        # print('-'*60+'\n')
 
     def reset_error(self):
         self.weight_error = np.zeros(self.weights.shape)

@@ -17,6 +17,7 @@ class DenseLayer(Layer):
 
     def feed_forward(self):
         self.weighted_inputs = (self.weights @ self.inputs) + self.biases
+        # print('weighted_inputs = weights @ inputs\n', self.weighted_inputs , '\n=\n', self.weights, '\n@\n', self.inputs, ('\n'+'-'*30+'\n'))
         self.output = self.activation_func(self.weighted_inputs)
 
         if self.next_layer != None:
