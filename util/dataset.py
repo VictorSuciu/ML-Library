@@ -9,10 +9,11 @@ class Dataset():
             " labels. The number of data points must equal the number of labels.")
         self.data = self.set_data(np.array(data))
         self.labels = self.set_labels(np.array(labels))
+        print(self.data)
         if colors == 0:
             self.colors = labels
         else:
-            self.colors = colors
+            self.colors = np.array(colors)
 
     def set_data(self, data):
         formatted_data = np.zeros((data.shape[0], data.shape[1], 1))
@@ -32,10 +33,24 @@ class Dataset():
         return formatted_labels
 
     
+    def shuffle(self):
+        permute = np.random.permutation(self.size())
+
+        self.data = self.data[permute]
+        self.labels = self.labels[permute]
+        self.colors = self.colors[permute]
+
+
     def size(self):
         return len(self.data)
 
     
     def plot(self, xfeat=0, yfeat=1):
-        plt.scatter(self.data[:,xfeat].T[0], self.data[:,yfeat].T[0], s=20, c=self.colors)
+        clr = [self.hex_to_str(n) for n in self.colors]
+        plt.scatter(self.data[:,xfeat].T[0], self.data[:,yfeat].T[0], s=20, c=clr)
         plt.show()
+
+    def hex_to_str(self, hexnum):
+        zeros = '000000'
+        hexstr = str(hex(hexnum))[2:]
+        return '#' + (zeros[:6 - len(hexstr)]) + hexstr

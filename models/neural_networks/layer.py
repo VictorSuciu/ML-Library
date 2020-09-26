@@ -49,12 +49,13 @@ class Layer():
 
 
     def init_weights(self):
+        print('INIT WEIGHTS')
         if self.weight_init == 'uniform':
             radius = 0.1
             self.weights = np.random.rand(self.num_neurons, self.input_size) * radius * 2 - radius
         elif self.weight_init == 'glorot':
             pass # TODO: implement glorot
-
+        
         self.weight_error = np.zeros(self.weights.shape)
 
 
@@ -76,10 +77,16 @@ class Layer():
             self.curr_error = last_layer_error(target, self.output, self.weighted_inputs, self.activation_der, self.cost_der)
         else:
             self.curr_error = layer_error(self.next_layer.weights, self.next_layer.curr_error, self.weighted_inputs, self.activation_der)
-
+        
+        # print(self.weight_error, '\n-----\n')
+        # print((self.inputs), '\n-----\n')
+        # print((self.curr_error), '\n-----\n')
+        # print((self.inputs @ self.curr_error).T, '\n-----\n')
+        # print(self.weight_error + (self.inputs @ self.curr_error).T, '\nEND -----------------\n')
+        
         self.weight_error += (self.curr_error @ self.inputs.T)
         self.bias_error += self.curr_error
-        
+
         # print("new weighted_inputs\n", self.weighted_inputs)
         # print("new output\n", self.output)
         # if not self.is_last:
@@ -88,7 +95,7 @@ class Layer():
 
     def reset_error(self):
         self.weight_error = np.zeros(self.weights.shape)
-        self.bias_error = np.zeros((self.num_neurons, 1))
+        self.bias_error = np.zeros(self.biases.shape)
 
 
     def set_as_last(self):
