@@ -26,8 +26,8 @@ colors = {
 
 # X, y = make_classification(n_features=2, n_redundant=0, n_informative=2,
 # random_state=1, n_clusters_per_class=1)
-
-X, y = make_moons(500, noise=0.2)
+num_points = 300
+X, y = make_moons(num_points, noise=0.2)
 
 # dataset = Dataset(np.array([[1, 1], [2, 4], [3, 9], [4, 16]]), np.array([1, 0, 1, 0]))
 dataset = Dataset(X, y, colors=[colors[n] for n in y])
@@ -41,7 +41,7 @@ net = NeuralNetwork(learning_rate=0.01)
 net.add_layer(DenseLayer(num_neurons=100, input_size=2, activation_name='elu'))
 net.add_layer(DenseLayer(num_neurons=1, input_size=100, activation_name='sigmoid'))
 
-loss_list = net.fit(dataset, batch_size=500, epochs=2000)
+loss_list = net.fit(dataset, batch_size=(num_points), epochs=2000)
 
 xran = np.arange(np.min(X[:,0]), np.max(X[:,0]), 0.02)
 yran = np.arange(np.min(X[:,1]), np.max(X[:,1]), 0.02)
