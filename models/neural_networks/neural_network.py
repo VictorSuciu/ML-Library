@@ -50,8 +50,6 @@ class NeuralNetwork(Model):
         
     def fit(self, dataset, batch_size, epochs):
         self.finalize()
-        # print(dataset.data)
-        # print(dataset.labels)
         loss_list = []
         
         for e in range(epochs):
@@ -66,43 +64,26 @@ class NeuralNetwork(Model):
                     dataset.labels[batch_start : batch_end]):
                     
                     # give input to first layer and feed forward throughout the network
-                    # print('\tFEED FORWARD\n')
                     tmp = self.predict(vector)
                     loss += quadratic(label, tmp)
+
                     # backpropagate error through network. This performs gradient descent
-                    # print('\tBACKPROP\n')
                     for layer in reversed(self.layers):
-                        layer.compute_layer_error(label)      
-                    
-                    # exit(0)
+                        layer.compute_layer_error(label)
 
                 # update weights and biases from results of gradient descent
-                # self.SGD(batch_size)
-                self.adam.step(batch_size, e + 1)
-                # for layer in self.layers:
-                #     print("\n+++++++++++++++\n")
-                #     print(layer.weights, '\n\n')
-                #     print(layer.biases)
+                self.SGD(batch_size)
+                # self.adam.step(batch_size, e + 1)
                 layer.reset_error()
 
                 loss /= dataset.size()
                 loss_list.append(loss[0][0])
-                # print("new weights")
-                # print(self.layers[1].weights)
-                # print("new biases")
-                # print(self.layers[1].biases)
 
             dataset.shuffle()
             
-        # for layer in self.layers:
-        #     print("\n+++++++++++++++\n")
-        #     print(layer.weights, '\n\n')
-        #     print(layer.biases)
-        # print(self.layers[2].weights)
         return loss_list
         
     def predict(self, datapoint, log=False):
-        # self.layers[0].set_input(datapoint / np.linalg.norm(datapoint))
         self.layers[0].set_input(datapoint)
         for layer in self.layers:
             if log:
