@@ -2,20 +2,28 @@ import numpy as np
 
 class Adam():
 
-    def __init__(self, layers, a=0.01, b1=0.9, b2=0.999, e=0.001):
-        self.layers = layers
+    def __init__(self, a=0.01, b1=0.9, b2=0.999, e=0.001):
+        self.layers = None
 
         self.a = a
         self.b1 = b1
         self.b2 = b2
         self.e = e
 
+        self.m_weights = None
+        self.m_biases = None
+
+        self.v_weights = None
+        self.v_biases = None
+        
+    
+    def set_layers(self, layers):
+        self.layers = layers
         self.m_weights = [np.zeros(layer.weights.shape) for layer in layers]
         self.m_biases = [np.zeros(layer.biases.shape) for layer in layers]
 
         self.v_weights = [np.zeros(layer.weights.shape) for layer in layers]
         self.v_biases = [np.zeros(layer.biases.shape) for layer in layers]
-        
     
     def step(self, batch_size, epoch_count):
         for i in range(len(self.layers)):

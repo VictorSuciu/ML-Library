@@ -7,6 +7,9 @@ from sklearn.datasets import make_classification
 from anotherml.util.dataset import Dataset
 from anotherml.models.neural_networks.neural_network import NeuralNetwork
 from anotherml.models.neural_networks.dense_layer import DenseLayer
+from anotherml.models.neural_networks.optimizers.sgd import SGD
+from anotherml.models.neural_networks.optimizers.adam import Adam
+
 import sys
 
 def hex_to_str(hexnum):
@@ -32,16 +35,17 @@ X, y = make_moons(num_points, noise=0.2)
 # dataset = Dataset(np.array([[1, 1], [2, 4], [3, 9], [4, 16]]), np.array([1, 0, 1, 0]))
 dataset = Dataset(X, y, colors=[colors[n] for n in y])
 
-net = NeuralNetwork(learning_rate=0.01)
-# net.add_layer(DenseLayer(num_neurons=4, input_size=2, activation_name='tanh'))
-# net.add_layer(DenseLayer(num_neurons=6, input_size=4, activation_name='tanh'))
-# net.add_layer(DenseLayer(num_neurons=1, input_size=6, activation_name='sigmoid'))
+net = NeuralNetwork()
+net.add_layer(DenseLayer(input_size=2, num_neurons=4, activation_name='tanh'))
+net.add_layer(DenseLayer(input_size=4, num_neurons=6, activation_name='elu'))
+net.add_layer(DenseLayer(input_size=6, num_neurons=1, activation_name='sigmoid'))
 
-# net.add_layer(DenseLayer(num_neurons=2, input_size=2, activation_name='tanh'))
-net.add_layer(DenseLayer(num_neurons=100, input_size=2, activation_name='elu'))
-net.add_layer(DenseLayer(num_neurons=1, input_size=100, activation_name='sigmoid'))
 
-loss_list = net.fit(dataset, batch_size=(num_points), epochs=2000)
+# net.add_layer(DenseLayer(input_size=2, num_neurons=100, activation_name='elu'))
+# net.add_layer(DenseLayer(input_size=100, num_neurons=1, activation_name='sigmoid'))
+net.set_optimizer(SGD(a=0.01))
+
+loss_list = net.fit(dataset, batch_size=(num_points), epochs=1000)
 
 xran = np.arange(np.min(X[:,0]), np.max(X[:,0]), 0.02)
 yran = np.arange(np.min(X[:,1]), np.max(X[:,1]), 0.02)

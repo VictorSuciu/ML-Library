@@ -11,11 +11,10 @@ from anotherml.models.neural_networks.optimizers.adam import Adam
 
 class NeuralNetwork(Model):
 
-    def __init__(self, learning_rate=0.05):
+    def __init__(self):
         super().__init__()
-        self.learning_rate = learning_rate
         self.layers = []
-        self.adam = None
+        self.optimizer = None
 
 
     def add_layer(self, layer):
@@ -23,6 +22,12 @@ class NeuralNetwork(Model):
             self.layers[-1].set_next_layer(layer)
         
         self.layers.append(layer)
+
+    
+    def set_optimizer(self, optimizer):
+        self.finalize()
+        self.optimizer = optimizer
+        self.optimizer.set_layers(self.layers)
 
 
     def finalize(self):
@@ -39,17 +44,16 @@ class NeuralNetwork(Model):
         self.adam = Adam(self.layers)
 
 
-    def SGD(self, batch_size):
-        for layer in self.layers:
-            weight_grad = (self.learning_rate / batch_size) * layer.weight_error
-            bias_grad = (self.learning_rate / batch_size) * layer.bias_error
-            layer.weights -= weight_grad
-            layer.biases -= bias_grad
+    # def SGD(self, batch_size):
+    #     for layer in self.layers:
+    #         weight_grad = (self.learning_rate / batch_size) * layer.weight_error
+    #         bias_grad = (self.learning_rate / batch_size) * layer.bias_error
+    #         layer.weights -= weight_grad
+    #         layer.biases -= bias_grad
 
 
         
     def fit(self, dataset, batch_size, epochs):
-        self.finalize()
         loss_list = []
         
         for e in range(epochs):
@@ -72,8 +76,8 @@ class NeuralNetwork(Model):
                         layer.compute_layer_error(label)
 
                 # update weights and biases from results of gradient descent
-                self.SGD(batch_size)
-                # self.adam.step(batch_size, e + 1)
+                # self.SGD(batch_size)
+                self.optimizer.step(batch_size, e + 1)
                 layer.reset_error()
 
                 loss /= dataset.size()
