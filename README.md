@@ -6,6 +6,6 @@ This is a small machine learning library. I am builing it to improve my understa
 
 > Multlayer perceptron with Adam optimizer over the moons dataset.
 
-![moons dataset sample image 2](https://github.com/VictorSuciu/README-Assets/blob/master/ML-Library/moons_example.png)
+![moons dataset sample image 2](https://github.com/VictorSuciu/README-Assets/blob/master/ML-Library/moons_example2.png)
 
 > Multlayer perceptron with a basic stochastic gradient descent optimizer over the moons dataset.
