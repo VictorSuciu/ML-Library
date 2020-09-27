@@ -6,6 +6,7 @@ from anotherml.models.neural_networks.dense_layer import DenseLayer
 from anotherml.models.neural_networks.output_layer import OutputLayer
 import anotherml.models.neural_networks.backpropagation
 from anotherml.models.neural_networks.cost_functions import quadratic
+from anotherml.models.neural_networks.optimizers.adam import Adam
 
 
 class NeuralNetwork(Model):
@@ -14,6 +15,7 @@ class NeuralNetwork(Model):
         super().__init__()
         self.learning_rate = learning_rate
         self.layers = []
+        self.adam = None
 
 
     def add_layer(self, layer):
@@ -34,8 +36,18 @@ class NeuralNetwork(Model):
             layer.init_weights()
             layer.init_biases()
         
+        self.adam = Adam(self.layers)
 
 
+    def SGD(self, batch_size):
+        for layer in self.layers:
+            weight_grad = (self.learning_rate / batch_size) * layer.weight_error
+            bias_grad = (self.learning_rate / batch_size) * layer.bias_error
+            layer.weights -= weight_grad
+            layer.biases -= bias_grad
+
+
+        
     def fit(self, dataset, batch_size, epochs):
         self.finalize()
         # print(dataset.data)
@@ -65,14 +77,13 @@ class NeuralNetwork(Model):
                     # exit(0)
 
                 # update weights and biases from results of gradient descent
-                for layer in self.layers:
-                    layer.weights -= (self.learning_rate / dataset.size()) * layer.weight_error
-                    layer.biases -= (self.learning_rate / dataset.size()) * layer.bias_error
-                    # for layer in self.layers:
-                    #     print("\n+++++++++++++++\n")
-                    #     print(layer.weights, '\n\n')
-                    #     print(layer.biases)
-                    layer.reset_error()
+                # self.SGD(batch_size)
+                self.adam.step(batch_size, e + 1)
+                # for layer in self.layers:
+                #     print("\n+++++++++++++++\n")
+                #     print(layer.weights, '\n\n')
+                #     print(layer.biases)
+                layer.reset_error()
 
                 loss /= dataset.size()
                 loss_list.append(loss[0][0])
@@ -82,7 +93,7 @@ class NeuralNetwork(Model):
                 # print(self.layers[1].biases)
 
             dataset.shuffle()
-
+            
         # for layer in self.layers:
         #     print("\n+++++++++++++++\n")
         #     print(layer.weights, '\n\n')
