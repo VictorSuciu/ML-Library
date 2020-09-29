@@ -8,6 +8,10 @@ This library is meant to help educators and students learn more about machine le
 
 Currently, it is not ready for release, but feel free to download it and play around. You'd just have to install it as a package and run it in a virtual Python environment, otherwise imports would be broken. This [stackoverflow post](https://stackoverflow.com/a/50193944) goes more into detail.
 
+<br/>
+
+<br/>
+
 ![moons dataset sample image](https://github.com/VictorSuciu/README-Assets/blob/master/ML-Library/moons_gif.gif)
 
 > Multlayer perceptron with Adam optimizer over the moons dataset.
