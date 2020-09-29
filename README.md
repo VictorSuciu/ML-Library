@@ -12,6 +12,8 @@ Currently, it is not ready for release, but feel free to download it and play ar
 
 <br/>
 
+## Example Animations
+
 ![moons dataset sample image](https://github.com/VictorSuciu/README-Assets/blob/master/ML-Library/moons_gif.gif)
 
 > Multlayer perceptron with Adam optimizer over the moons dataset.
