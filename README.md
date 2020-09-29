@@ -4,7 +4,9 @@ This is a small machine learning library. I am builing it to improve my understa
 
 ## Who is this for?
 
-This library is meant to help educators and students learn more about machine learning and neural networks. Users can make gif animations of the training process, as shown below, which helps make sense of what "learning" really looks like. Currently, it is not ready for release.
+This library is meant to help educators and students learn more about machine learning and neural networks. Users can make gif animations of the training process, as shown below, which helps make sense of what "learning" really looks like. 
+
+Currently, it is not ready for release, but feel free to download it and play around. You'd just have to install it as a package and run it in a virtual Python environment, otherwise imports would be broken. This [stackoverflow post](https://stackoverflow.com/a/50193944) goes more into detail.
 
 ![moons dataset sample image](https://github.com/VictorSuciu/README-Assets/blob/master/ML-Library/moons_gif.gif)
 
